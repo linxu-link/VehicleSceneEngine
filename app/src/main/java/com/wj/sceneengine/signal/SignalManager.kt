@@ -14,9 +14,11 @@ object SignalManager {
      * 更新信号值，并通知所有订阅者
      */
     fun updateSignal(signal: Signal) {
-        println("[updateSignal]: $signal")
-        currentSignals[signal.key] = signal.value
-        listeners.forEach { it(signal) }
+        synchronized(this) {
+            println("[updateSignal]: $signal")
+            currentSignals[signal.key] = signal.value
+            listeners.forEach { it(signal) }
+        }
     }
 
     /**
@@ -30,13 +32,17 @@ object SignalManager {
      * 订阅信号变化，并注册监听器
      */
     fun subscribe(listener: (Signal) -> Unit) {
-        listeners.add(listener)
+        synchronized(this) {
+            listeners.add(listener)
+        }
     }
 
     /**
      * 取消订阅，移除监听器
      */
     fun unsubscribe(listener: (Signal) -> Unit) {
-        listeners.remove(listener)
+        synchronized(this) {
+            listeners.remove(listener)
+        }
     }
 }

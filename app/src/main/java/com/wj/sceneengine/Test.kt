@@ -33,6 +33,7 @@ class Test {
                 ),
                 onEnter = { actions ->
                     println("🟢 [场景激活] 已进入 ECO 模式：开启节能模式\n")
+                    // 解析 actions 执行其他操作，
                 },
                 onExit = { actions ->
                     println("🔴 [场景退出] 已退出 ECO 模式：关闭节能模式\n")
